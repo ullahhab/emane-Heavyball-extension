@@ -16,7 +16,7 @@ namespace EMANE
   {
     namespace HeavyBallTDMA
     {
-      class BasicQueueManagerHeavyBall : public QueueManager
+      class BasicQueueManagerHeavyBall : public QueueManagerHB
       {
       public:
          BasicQueueManagerHeavyBall(NEMId id,
