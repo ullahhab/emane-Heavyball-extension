@@ -1,6 +1,9 @@
 //TODO: HeavyBall algorithm
 #ifndef EMANEMODELSTDMABASICQUEUEMANAGERHB_HEADER_
 #define EMANEMODELSTDMABASICQUEUEMANAGERHB_HEADER_
+//This might change for debug purposes:
+// could change to #include "emane-HeavyBall-extension/src/HBTDMA 
+//Please check this for debug purposes
 #include "emane/models/HeavyBallTDMA/queuemanager.h"
 #include <map>
 
