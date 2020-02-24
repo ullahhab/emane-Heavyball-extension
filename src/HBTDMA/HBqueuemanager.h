@@ -32,3 +32,42 @@ namespace EMANE
     public:
       virtual ~QueueManagerHB(){};
       
+      
+      
+      virtual 
+      size_t enqueue(std::uint8_t u8QueueIndex, DownstreamPacket && pkt) = 0;
+      
+      
+      virtual std::tuple<EMANE::Models::TDMA::MessageComponenets,size_t>
+      dequeue(std::uint8_t u8QueueIndex,size_t length,NEMId destination) = 0;
+      
+      
+      
+      virtual std::map<std::uint64_t,size_t> getDestQueueLength(int priority) = 0;
+      
+      virtual QueueInfos getPacketQueueInfo() const = 0;
+
+      protected:
+        NEMId id_;
+        
+        
+        
+       QueueManager(NEMId id,
+                     PlatformServiceProvider * pPlatformServiceProvider):
+          PlatformServiceUser{pPlatformServiceProvider},
+          id_{id}{}
+          
+          
+       private:
+        void processEvent(const EventId &, const Serialization &) final{};
+
+        void processTimedEvent(TimerEventId,
+                               const TimePoint &,
+                               const TimePoint &,
+                               const TimePoint &,
+                               const void *) final {};
+
+      };
+    }
+  }
+}
