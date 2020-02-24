@@ -2,6 +2,7 @@
 #ifndef EMANEMODELSTDMABASICQUEUEMANAGERHB_HEADER_
 #define EMANEMODELSTDMABASICQUEUEMANAGERHB_HEADER_
 #include "emane/models/tdma/queuemanager.h"
+#include <map>
 
 
 
