@@ -374,7 +374,7 @@ EMANE::Models::TDMA::BasicQueueManager::getPacketQueueInfo() const
 
   return queueInfos;
 }
-
+//TODO: This would change most likely
 std::map<std::uint64_t,size_t> EMANE::Models::TDMA::BasicQueueManager::getDestQueueLength(int priority)
 {
   return pImpl_->queues_[priority].getDestQueueLength();
