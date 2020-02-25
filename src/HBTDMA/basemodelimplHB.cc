@@ -1,4 +1,8 @@
+
+//This line would change depends on where you put it!!
 #include "basemodelimpl.h"
+//This line would change to #include "emane/models/HeavyBallTDMA/queuemanagerHB.h
+//Double check if directory is correct. 
 #include "emane/models/tdma/queuemanager.h"
 
 #include "emane/configureexception.h"
@@ -25,8 +29,9 @@ namespace
   const std::string QUEUEMANAGER_PREFIX{"queue."};
   const std::string SCHEDULER_PREFIX{"scheduler."};
 }
-
-EMANE::Models::TDMA::BaseModel::Implementation::
+//TODO: Following line and lines after this would change to something line 
+//EMANE::Models::HeavyBallTDMA::BaseModel::ImplementationHB
+EMANE::Models::TDMA::BaseModel::ImplementationHB::
 Implementation(NEMId id,
                PlatformServiceProvider *pPlatformServiceProvider,
                RadioServiceProvider * pRadioServiceProvider,
@@ -60,11 +65,13 @@ Implementation(NEMId id,
   flowControlManager_{*pRadioModel},
   u64ScheduleIndex_{}{}
 
+//TODO:
+//This line would also change to something HeavyBallTDMA
 
-EMANE::Models::TDMA::BaseModel::Implementation::~Implementation()
+EMANE::Models::TDMA::BaseModel::ImplementationHB::~ImplementationHB()
 {}
 
-
+//TODO: Line would change
 void
 EMANE::Models::TDMA::BaseModel::Implementation::initialize(Registrar & registrar)
 {
@@ -160,7 +167,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::initialize(Registrar & registrar
 }
 
 
-
+//TODO: Line would change
 void
 EMANE::Models::TDMA::BaseModel::Implementation::configure(const ConfigurationUpdate & update)
 {
@@ -307,7 +314,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::configure(const ConfigurationUpd
 
   pScheduler_->configure(schedulerConfiguration);
 }
-
+//TODO: This line would change
 void
 EMANE::Models::TDMA::BaseModel::Implementation::start()
 {
@@ -322,7 +329,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::start()
   pScheduler_->start();
 }
 
-
+//TODO: This line would change
 void
 EMANE::Models::TDMA::BaseModel::Implementation::postStart()
 {
@@ -357,7 +364,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::postStart()
              neighborMetricUpdateInterval_);
 }
 
-
+//TODO: THis line would change
 void
 EMANE::Models::TDMA::BaseModel::Implementation::stop()
 {
@@ -380,7 +387,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::stop()
 }
 
 
-
+//TODO: THis line would change
 void
 EMANE::Models::TDMA::BaseModel::Implementation::destroy()
   throw()
@@ -395,7 +402,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::destroy()
 
   pScheduler_->destroy();
 }
-
+//TODO: This line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::processUpstreamControl(const ControlMessages &)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -406,7 +413,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processUpstreamControl(cons
 
 }
 
-
+//TODO: This line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::processUpstreamPacket(const CommonMACHeader & hdr,
                                                                            UpstreamPacket & pkt,
                                                                            const ControlMessages & msgs)
@@ -748,7 +755,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processUpstreamPacket(const
                               len);
     }
 }
-
+//TODO: This line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::processDownstreamControl(const ControlMessages & msgs)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -829,7 +836,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processDownstreamControl(co
     }
 }
 
-
+//TODO: This line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::processDownstreamPacket(DownstreamPacket & pkt,
                                                                              const ControlMessages &)
 {
@@ -891,7 +898,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processDownstreamPacket(Dow
     }
 }
 
-
+//TODO: This line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::processEvent(const EventId & eventId,
                                                                   const Serialization & serialization)
 {
@@ -905,7 +912,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processEvent(const EventId 
 
 }
 
-
+//TODO: THis line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::processConfiguration(const ConfigurationUpdate & update)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -941,7 +948,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processConfiguration(const 
 
   pScheduler_->configure(schedulerConfiguration);
 }
-
+//TODO: THIS line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::notifyScheduleChange(const Frequencies & frequencies,
                                                                           std::uint64_t u64BandwidthHz,
                                                                           const Microseconds & slotDuration,
@@ -1005,7 +1012,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::notifyScheduleChange(const 
                  pendingTxSlotInfo_.timePoint_);
     }
 }
-
+//TODO: This line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::processSchedulerPacket(DownstreamPacket & pkt)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -1018,7 +1025,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processSchedulerPacket(Down
   pQueueManager_->enqueue(4,std::move(pkt));
 }
 
-
+//TODO: This line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::processSchedulerControl(const ControlMessages & msgs)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -1041,7 +1048,7 @@ EMANE::Models::TDMA::QueueInfos EMANE::Models::TDMA::BaseModel::Implementation::
 
   return pQueueManager_->getPacketQueueInfo();
 }
-
+//TODO: This line would change
 void EMANE::Models::TDMA::BaseModel::Implementation::sendDownstreamPacket(double dSlotRemainingRatio)
 {
   // calculate the number of bytes allowed in the slot
@@ -1304,7 +1311,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processTxOpportunity(std::u
 
   return;
 }
-
+//TODO: This line would change
 EMANE::NEMId EMANE::Models::TDMA::BaseModel::Implementation::getDstByMaxWeight()
 {
 
