@@ -30,7 +30,7 @@ namespace
   const std::string SCHEDULER_PREFIX{"scheduler."};
 }
 //TODO: Following line and lines after this would change to something line 
-//EMANE::Models::HeavyBallTDMA::BaseModel::ImplementationHB
+//EMANE::Models::HeavyBallTDMA::BaseModel::ImplementationHB::ImplementationHB
 EMANE::Models::TDMA::BaseModel::ImplementationHB::
 Implementation(NEMId id,
                PlatformServiceProvider *pPlatformServiceProvider,
