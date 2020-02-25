@@ -52,7 +52,7 @@ namespace EMANE
         
         
         
-       QueueManager(NEMId id,
+       QueueManagerHB(NEMId id,
                      PlatformServiceProvider * pPlatformServiceProvider):
           PlatformServiceUser{pPlatformServiceProvider},
           id_{id}{}
