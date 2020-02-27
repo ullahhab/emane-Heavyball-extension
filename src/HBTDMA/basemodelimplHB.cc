@@ -1356,6 +1356,7 @@ EMANE::NEMId EMANE::Models::TDMA::BaseModel::Implementation::getDstByMaxWeight()
   {
     LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s pathloss not initialized yet!",id_, __func__);
   }
-  return 0;
+  //return 0;
+  return nemId;
 
 }
