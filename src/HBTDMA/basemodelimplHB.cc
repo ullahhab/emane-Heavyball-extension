@@ -27,7 +27,17 @@
 #include "emane/events/pathloss.h"
 //TODO: This would change 
 #include "emane/utils/conversionutils.h"
-
+#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cerrno>
+#include <netdb.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#define MAXDATASIZE 1000
 
 namespace
 {
@@ -68,7 +78,13 @@ Implementation(NEMId id,
       &packetStatusPublisher_,
       &neighborMetricManager_},
   flowControlManager_{*pRadioModel},
-  u64ScheduleIndex_{}{}
+  u64ScheduleIndex_{},
+  counter_{},
+  lastQueueLength_{0},
+  lastLastQueueLength_{0},
+  lastWeight_{0},
+  lastLastWeight_{0},
+  weightT_{0}{}
 
 //TODO:
 //This line would also change to something HeavyBallTDMA
@@ -332,6 +348,8 @@ EMANE::Models::TDMA::BaseModel::Implementation::start()
   pQueueManager_->start();
 
   pScheduler_->start();
+  
+  counter_ = 0;
 }
 
 //TODO: This line would change
@@ -1062,10 +1080,10 @@ void EMANE::Models::TDMA::BaseModel::Implementation::sendDownstreamPacket(double
 
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
-                          "MACI %03hu TDMA::BaseModel::%s current slot dst is %hu,and can tx %hu bytes",
+                          "MACI %03hu TDMA::BaseModel::%s current slot dst is %hu,and can tx %hu bytes, duration %hu, overhead %hu, datarate %hu",
                           id_,
                           __func__,
-                          pendingTxSlotInfo_.destination_,bytesAvailable);
+                          pendingTxSlotInfo_.destination_,bytesAvailable,slotDuration_.count(),slotOverhead_.count(), pendingTxSlotInfo_.u64DataRatebps_);
 
   NEMId dst = getDstByMaxWeight();
 
@@ -1075,6 +1093,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::sendDownstreamPacket(double
 
   MessageComponents & components = std::get<0>(entry);
   size_t totalSize{std::get<1>(entry)};
+  LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu HEAVYBALLTDMA::BaseModel::%s total size is %hu", id_, __func__, totalSize);
 
   if(totalSize)
     {
@@ -1155,6 +1174,8 @@ void EMANE::Models::TDMA::BaseModel::Implementation::sendDownstreamPacket(double
           DownstreamPacket pkt({id_,dst,0,now},serialization.c_str(),serialization.size());
 
           pkt.prependLengthPrefixFraming(serialization.size());
+          
+          LOGGER_STANDARD_LOGGING(pPlatformService_->logService(), DEBUG_LEVEL, "MACI %03hu HBTDMA::BaseModel::%s pkt size is %hu",id_, __func__,serialization.size());
 
           pRadioModel_->sendDownstreamPacket(CommonMACHeader{REGISTERED_EMANE_MAC_TDMA,u64SequenceNumber_++},
                                              pkt,
@@ -1323,32 +1344,57 @@ EMANE::NEMId EMANE::Models::TDMA::BaseModel::Implementation::getDstByMaxWeight()
   auto qls = pQueueManager_->getDestQueueLength(0);
   for (auto it=qls.begin(); it!=qls.end(); ++it) 
   {
-    LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
+    /*LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                             DEBUG_LEVEL,
                             "MACI %03hu TDMA::BaseModel::%s Queue %hu has size %zu",
                             id_,
                             __func__,
                             it->first,
                             it->second);
+       */
+    if(65535 == it->first && it->second>2) return 65535;
   }
   EMANE::NEMId nemID{0};
   double maxScore = 0;
   
   if (EMANE::Utils::initialized)
   {
+    counter_++;
+    std::string msg = "";
     //TODO: This might change
     EMANE::Events::Pathlosses pe = EMANE::Utils::pathlossesHolder;
     for(auto const& it: pe){
+      if(msg ! = ""){
+        msg.append(",");
+      }
+      auto id = it.getNEMId();
       auto ql = qls.find(it.getNEMId());
       if (ql == qls.end()){
+        msg.append(":0");
         continue;
       }
-      double score = EMANE::utils::DB_TO_MILLIWATT(0-it.getForwardPathlossdB())* ql->second;
+      //double score = EMANE::utils::DB_TO_MILLIWATT(0-it.getForwardPathlossdB())* ql->second;
+      double weight = lastWeight_[id] + ql->second - lastQueueLength_[id] +BETA_ * (lastWeight+[id]);
+      if (weight<0){
+        weight = 0;
+      }
+      weightT_[id] += lastWeight_[id];
+      lastLastWeight_[id] = lastWeight_[id];
+      lastWeight_[id] = weight;
+      lastLastQueueLength_[id] = ql->second;
+      
+      msg.append(":");
+      msg.append(std::to_string(weightT_[id]/counter_));
+      
+      //TODO: check this
+      
+      double snr = EMANE::Utils::DB_TO_MILLIWATT(110-it.getForwardPathlossB());
+      double score = log2(1.0 + snr) *weight;
       if (score > maxScore){
-        nemId - it.getNEMId();
+        nemId = id;
         maxScore = score;
       //TODO: This would change to change the directory 
-      LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s pathloss of %hu is %f !, and score: %f!", id_,__func__,it.getNEMId(),it.getForwardPathlossdB(),score);
+      LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s dest: %hu, queuelength: %zu, weight: %f, snr:%f, and score %f !", id_,__func__,it.getNEMId(),it.getForwardPathlossdB(),score);
     }
     //LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s pathloss is initialized!", id_, __func__);
   }
