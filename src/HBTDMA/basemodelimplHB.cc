@@ -21,7 +21,10 @@
 #include "txslotinfosformatter.h"
 #include "basemodelmessage.h"
 #include "priority.h"
-
+//TODO: Change the current directory to something where this file located.
+#include "emane/utils/pathlossesholder.h"
+//TODO: Change this current directory to something where this file is located
+#include "emane/events/pathloss.h"
 
 
 namespace
@@ -1325,6 +1328,19 @@ EMANE::NEMId EMANE::Models::TDMA::BaseModel::Implementation::getDstByMaxWeight()
                             __func__,
                             it->first,
                             it->second);
+  }
+  if (EMANE::Utils::initialized)
+  {
+    EMANE::Events::Pathlosses pe = EMANE::Utils::pathlossesHolder;
+    for(auto const& it: pe){
+      //TODO: This would change to change the directory 
+      LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s pathloss of %hu is %f !", id_,__func__,it.getNEMId(),it.getForwardPathlossdB());
+    }
+    LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s pathloss is initialized!", id_, __func__);
+  }
+  else
+  {
+    LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s pathloss not initialized yet!",id_, __func__);
   }
   return 0;
 
