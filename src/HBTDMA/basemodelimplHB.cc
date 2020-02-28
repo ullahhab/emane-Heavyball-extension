@@ -1369,18 +1369,20 @@ EMANE::NEMId EMANE::Models::TDMA::BaseModel::Implementation::getDstByMaxWeight()
       }
       auto id = it.getNEMId();
       auto ql = qls.find(it.getNEMId());
+      msg.append(std::to_string(id));
       if (ql == qls.end()){
         msg.append(":0");
         continue;
       }
       //double score = EMANE::utils::DB_TO_MILLIWATT(0-it.getForwardPathlossdB())* ql->second;
-      double weight = lastWeight_[id] + ql->second - lastQueueLength_[id] +BETA_ * (lastWeight+[id]);
+      double weight = lastWeight_[id] + ql->second - lastQueueLength_[id] +BETA_ * (lastWeight_[id]-lastLastWeight_[id]+ql->second+lastLastQueueLength_[id]-2 * lastQueueLength_[id]);
       if (weight<0){
         weight = 0;
       }
       weightT_[id] += lastWeight_[id];
       lastLastWeight_[id] = lastWeight_[id];
       lastWeight_[id] = weight;
+      lastLAstQueueLength_[id] = lastQueueLength_[id];
       lastLastQueueLength_[id] = ql->second;
       
       msg.append(":");
@@ -1393,16 +1395,91 @@ EMANE::NEMId EMANE::Models::TDMA::BaseModel::Implementation::getDstByMaxWeight()
       if (score > maxScore){
         nemId = id;
         maxScore = score;
-      //TODO: This would change to change the directory 
-      LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s dest: %hu, queuelength: %zu, weight: %f, snr:%f, and score %f !", id_,__func__,it.getNEMId(),it.getForwardPathlossdB(),score);
-    }
+      }
+       //TODO: This would change to change the directory 
+      LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s dest: %hu, queuelength: %zu, weight: %f, snr:%f, and score %f !", id_,__func__,it.getNEMId(),ql->second,weight,snr,score);
+    
     //LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s pathloss is initialized!", id_, __func__);
   }
-  else
+ /* else
   {
     LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),DEBUG_LEVEL,"MACI %03hu TDMA::BaseModel::%s pathloss not initialized yet!",id_, __func__);
   }
   //return 0;
+  return nemId;
+
+}
+*/ 
+   if (counter_ == 1)
+     {
+        // create socket and ready for send data out.
+        counter_ = 0;
+        for (int i = 0; i < 10; i++)
+          {
+            weightT_[i] = 0;
+          }
+        int sock_fd = -1;
+        char buf[MAXDATASIZE];
+        int recvbytes, sendbytes, len;
+
+        in_addr_t server_ip = inet_addr("127.0.0.1");
+        in_port_t server_port = 10036;
+
+
+        if ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+          LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
+                                  DEBUG_LEVEL,
+                                  "MACI %03hu TDMA::BaseModel::%s Socket creation error!",
+                                  id_,
+                                  __func__);
+        }
+
+        long flag = 1;
+        setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&flag, sizeof(flag));
+
+        struct sockaddr_in server_addr;
+        server_addr.sin_addr.s_addr = server_ip;
+        server_addr.sin_family = AF_INET;
+        server_addr.sin_port = htons(server_port);
+        // printf("Try to connect server(%s:%u)\n", inet_ntoa(server_addr.sin_addr), ntohs(server_addr.sin_port));
+
+        if(connect(sock_fd, (struct sockaddr *)&server_addr, sizeof(struct sockaddr)) == -1) {
+          LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
+                                  DEBUG_LEVEL,
+                                  "MACI %03hu TDMA::BaseModel::%s Connection Failed!",
+                                  id_,
+                                  __func__);
+          close(sock_fd);  
+          return nemId;
+        }  
+
+        // printf("Connect server success(%s:%u)\n", inet_ntoa(server_addr.sin_addr), ntohs(server_addr.sin_port));
+        if(send(sock_fd, msg.c_str(), msg.size(), 0) == -1) {
+            LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
+                        DEBUG_LEVEL,
+                        "MACI %03hu TDMA::BaseModel::%s Send Failed!",
+                        id_,
+                        __func__);
+        }
+        if((recvbytes=recv(sock_fd, buf, MAXDATASIZE, 0)) == -1) {  
+          LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
+                                  DEBUG_LEVEL,
+                                  "MACI %03hu TDMA::BaseModel::%s Connection recv Failed!",
+                                  id_,
+                                  __func__);
+        }
+        buf[recvbytes] = '\0';
+        LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
+                                  DEBUG_LEVEL,
+                                  "MACI %03hu TDMA::BaseModel::%s \"%s\" recived!",
+                                  id_,
+                                  __func__,
+                                  buf);
+        close(sock_fd);  
+     }
+     
+  }
+
   return nemId;
 
 }
