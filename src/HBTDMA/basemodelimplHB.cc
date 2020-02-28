@@ -37,6 +37,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <arpa/inet.h>
+#include <fcntl.h>
 #define MAXDATASIZE 1000
 
 namespace
@@ -1424,8 +1426,13 @@ EMANE::NEMId EMANE::Models::TDMA::BaseModel::Implementation::getDstByMaxWeight()
 
         in_addr_t server_ip = inet_addr("127.0.0.1");
         in_port_t server_port = 10036;
+        std::string fifo = "/tmp/emane-mgen_fifo_node" + std::to_string(id_);
+        int fd = open(fifo.c_str(), O_WRONLY);
+        
+        write(fd, msg.c_str(), msg.length() +1);
+        close(fd);
 
-
+/*
         if ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
           LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                                   DEBUG_LEVEL,
@@ -1475,7 +1482,7 @@ EMANE::NEMId EMANE::Models::TDMA::BaseModel::Implementation::getDstByMaxWeight()
                                   id_,
                                   __func__,
                                   buf);
-        close(sock_fd);  
+        close(sock_fd);  */
      }
      
   }
