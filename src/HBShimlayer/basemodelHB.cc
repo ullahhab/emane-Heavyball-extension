@@ -1,9 +1,9 @@
-#include "emane/models/tdma/basemodel.h"
-#include "basemodelimpl.h"
+#include "emane/models/HBShimlayer/basemodelHB.h"
+#include "basemodelimplHB.h"
 
 
 //TODO: THis line would change
-EMANE::Models::TDMA::BaseModel::BaseModel(NEMId id,
+EMANE::Models::HeavyBallShimlayer::BaseModelHB::BaseModelHB(NEMId id,
                                           PlatformServiceProvider * pPlatformServiceProvider,
                                           RadioServiceProvider * pRadioServiceProvider,
                                           Scheduler * pScheduler,
@@ -19,12 +19,12 @@ EMANE::Models::TDMA::BaseModel::BaseModel(NEMId id,
 
 
 //TODO: THis line would change
-EMANE::Models::TDMA::BaseModel::~BaseModel()
+EMANE::Models::HBShimlayer::BaseModelHB::~BaseModelHB()
 {}
 
 
 void
-EMANE::Models::TDMA::BaseModel::initialize(Registrar & registrar)
+EMANE::Models::HBShimlayer::BaseModelHB::initialize(Registrar & registrar)
 {
   pImpl_->initialize(registrar);
 }
@@ -32,27 +32,27 @@ EMANE::Models::TDMA::BaseModel::initialize(Registrar & registrar)
 
 
 void
-EMANE::Models::TDMA::BaseModel::configure(const ConfigurationUpdate & update)
+EMANE::Models::HBShimlayer::BaseModelHB::configure(const ConfigurationUpdate & update)
 {
   pImpl_->configure(update);
 }
 
 void
-EMANE::Models::TDMA::BaseModel::start()
+EMANE::Models::HBShimlayer::BaseModelHB::start()
 {
   pImpl_->start();
 }
 
 
 void
-EMANE::Models::TDMA::BaseModel::postStart()
+EMANE::Models::HBShimlayer::BaseModelHB::postStart()
 {
   pImpl_->postStart();
 }
 
 
 void
-EMANE::Models::TDMA::BaseModel::stop()
+EMANE::Models::HBShimlayer::BaseModelHB::stop()
 {
   pImpl_->stop();
 }
@@ -60,51 +60,51 @@ EMANE::Models::TDMA::BaseModel::stop()
 
 
 void
-EMANE::Models::TDMA::BaseModel::destroy()
+EMANE::Models::HBShimlayer::BaseModelHB::destroy()
   throw()
 {
   pImpl_->destroy();
 }
 
-void EMANE::Models::TDMA::BaseModel::processUpstreamControl(const ControlMessages & msgs)
+void EMANE::Models::HBShimlayer::BaseModelHB::processUpstreamControl(const ControlMessages & msgs)
 {
   pImpl_->processUpstreamControl(msgs);
 }
 
 
-void EMANE::Models::TDMA::BaseModel::processUpstreamPacket(const CommonMACHeader & hdr,
+void EMANE::Models::HBShimlayer::BaseModelHB::processUpstreamPacket(const CommonMACHeader & hdr,
                                                            UpstreamPacket & pkt,
                                                            const ControlMessages & msgs)
 {
   pImpl_->processUpstreamPacket(hdr,pkt,msgs);
 }
 
-void EMANE::Models::TDMA::BaseModel::processDownstreamControl(const ControlMessages & msgs)
+void EMANE::Models::HBShimlayer::BaseModelHB::processDownstreamControl(const ControlMessages & msgs)
 {
   pImpl_->processDownstreamControl(msgs);
 }
 
 
-void EMANE::Models::TDMA::BaseModel::processDownstreamPacket(DownstreamPacket & pkt,
+void EMANE::Models::HBShimlayer::BaseModelHB::processDownstreamPacket(DownstreamPacket & pkt,
                                                              const ControlMessages & msgs)
 {
   pImpl_->processDownstreamPacket(pkt,msgs);
 }
 
 
-void EMANE::Models::TDMA::BaseModel::processEvent(const EventId & eventId,
+void EMANE::Models::HBShimlayer::BaseModelHB::processEvent(const EventId & eventId,
                                                   const Serialization & serialization)
 {
   pImpl_->processEvent(eventId,serialization);
 }
 
 
-void EMANE::Models::TDMA::BaseModel::processConfiguration(const ConfigurationUpdate & update)
+void EMANE::Models::HBShimlayer::BaseModelHB::processConfiguration(const ConfigurationUpdate & update)
 {
   pImpl_->processConfiguration(update);
 }
 
-void EMANE::Models::TDMA::BaseModel::notifyScheduleChange(const Frequencies & frequencies,
+void EMANE::Models::HBShimlayer::BaseModelHB::notifyScheduleChange(const Frequencies & frequencies,
                                                           std::uint64_t u64BandwidthHz,
                                                           const Microseconds & slotDuration,
                                                           const Microseconds & slotOverhead,
@@ -114,19 +114,19 @@ void EMANE::Models::TDMA::BaseModel::notifyScheduleChange(const Frequencies & fr
 }
 
 
-void EMANE::Models::TDMA::BaseModel::processSchedulerPacket(DownstreamPacket & pkt)
+void EMANE::Models::HBShimlayer::BaseModelHB::processSchedulerPacket(DownstreamPacket & pkt)
 {
   pImpl_->processSchedulerPacket(pkt);
 }
 
 
-void EMANE::Models::TDMA::BaseModel::processSchedulerControl(const ControlMessages & msgs)
+void EMANE::Models::HBShimlayer::BaseModelHB::processSchedulerControl(const ControlMessages & msgs)
 {
   pImpl_->processSchedulerControl(msgs);
 }
 
 
-EMANE::Models::TDMA::QueueInfos EMANE::Models::TDMA::BaseModel::getPacketQueueInfo() const
+EMANE::Models::TDMA::QueueInfos EMANE::Models::HBShimlayer::BaseModelHB::getPacketQueueInfo() const
 {
   return pImpl_->getPacketQueueInfo();
 }
