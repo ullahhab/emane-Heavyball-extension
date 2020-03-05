@@ -3,7 +3,7 @@
 #include "basemodelimpl.h"
 //This line would change to #include "emane/models/HeavyBallTDMA/queuemanagerHB.h
 //Double check if directory is correct. 
-#include "emane/models/tdma/queuemanager.h"
+#include "queuemanagerHB.h"
 
 #include "emane/configureexception.h"
 #include "emane/controls/frequencyofinterestcontrolmessage.h"
@@ -19,10 +19,10 @@
 #include "emane/controls/transmittercontrolmessage.h"
 
 #include "txslotinfosformatter.h"
-#include "basemodelmessage.h"
-#include "priority.h"
-//TODO: Change the current directory to something where this file located.
-#include "emane/utils/pathlossesholder.h"
+#include "emane/src/models/mac/tdma/basemodelmessage.h"
+#include "emane/src/models/mac/tdma/priority.h"
+//TODO: Change the current directory to something where this file located.Keep it here inside the HBShimlayer maybe that will work!!!
+#include "pathlossesholder.h"
 //TODO: Change this current directory to something where this file is located
 #include "emane/events/pathloss.h"
 //TODO: This would change 
@@ -48,8 +48,8 @@ namespace
 }
 //TODO: Following line and lines after this would change to something line 
 //EMANE::Models::HeavyBallTDMA::BaseModel::ImplementationHB::ImplementationHB
-EMANE::Models::TDMA::BaseModel::ImplementationHB::
-Implementation(NEMId id,
+EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::
+ImplementationHB(NEMId id,
                PlatformServiceProvider *pPlatformServiceProvider,
                RadioServiceProvider * pRadioServiceProvider,
                Scheduler * pScheduler,
@@ -91,12 +91,12 @@ Implementation(NEMId id,
 //TODO:
 //This line would also change to something HeavyBallTDMA
 
-EMANE::Models::TDMA::BaseModel::ImplementationHB::~ImplementationHB()
+EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::~ImplementationHB()
 {}
 
 //TODO: Line would change
 void
-EMANE::Models::TDMA::BaseModel::Implementation::initialize(Registrar & registrar)
+EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::initialize(Registrar & registrar)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -192,7 +192,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::initialize(Registrar & registrar
 
 //TODO: Line would change
 void
-EMANE::Models::TDMA::BaseModel::Implementation::configure(const ConfigurationUpdate & update)
+EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::configure(const ConfigurationUpdate & update)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -339,7 +339,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::configure(const ConfigurationUpd
 }
 //TODO: This line would change
 void
-EMANE::Models::TDMA::BaseModel::Implementation::start()
+EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::start()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -356,7 +356,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::start()
 
 //TODO: This line would change
 void
-EMANE::Models::TDMA::BaseModel::Implementation::postStart()
+EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::postStart()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -391,7 +391,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::postStart()
 
 //TODO: THis line would change
 void
-EMANE::Models::TDMA::BaseModel::Implementation::stop()
+EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::stop()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -414,7 +414,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::stop()
 
 //TODO: THis line would change
 void
-EMANE::Models::TDMA::BaseModel::Implementation::destroy()
+EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::destroy()
   throw()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -428,7 +428,7 @@ EMANE::Models::TDMA::BaseModel::Implementation::destroy()
   pScheduler_->destroy();
 }
 //TODO: This line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::processUpstreamControl(const ControlMessages &)
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::processUpstreamControl(const ControlMessages &)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -439,7 +439,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processUpstreamControl(cons
 }
 
 //TODO: This line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::processUpstreamPacket(const CommonMACHeader & hdr,
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::processUpstreamPacket(const CommonMACHeader & hdr,
                                                                            UpstreamPacket & pkt,
                                                                            const ControlMessages & msgs)
 {
@@ -781,7 +781,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processUpstreamPacket(const
     }
 }
 //TODO: This line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::processDownstreamControl(const ControlMessages & msgs)
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::processDownstreamControl(const ControlMessages & msgs)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -862,7 +862,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processDownstreamControl(co
 }
 
 //TODO: This line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::processDownstreamPacket(DownstreamPacket & pkt,
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::processDownstreamPacket(DownstreamPacket & pkt,
                                                                              const ControlMessages &)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -924,7 +924,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processDownstreamPacket(Dow
 }
 
 //TODO: This line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::processEvent(const EventId & eventId,
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::processEvent(const EventId & eventId,
                                                                   const Serialization & serialization)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -938,7 +938,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processEvent(const EventId 
 }
 
 //TODO: THis line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::processConfiguration(const ConfigurationUpdate & update)
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::processConfiguration(const ConfigurationUpdate & update)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -974,7 +974,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processConfiguration(const 
   pScheduler_->configure(schedulerConfiguration);
 }
 //TODO: THIS line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::notifyScheduleChange(const Frequencies & frequencies,
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::notifyScheduleChange(const Frequencies & frequencies,
                                                                           std::uint64_t u64BandwidthHz,
                                                                           const Microseconds & slotDuration,
                                                                           const Microseconds & slotOverhead)
@@ -1038,7 +1038,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::notifyScheduleChange(const 
     }
 }
 //TODO: This line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::processSchedulerPacket(DownstreamPacket & pkt)
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::processSchedulerPacket(DownstreamPacket & pkt)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -1051,7 +1051,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processSchedulerPacket(Down
 }
 
 //TODO: This line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::processSchedulerControl(const ControlMessages & msgs)
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::processSchedulerControl(const ControlMessages & msgs)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -1063,7 +1063,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processSchedulerControl(con
 }
 
 
-EMANE::Models::TDMA::QueueInfos EMANE::Models::TDMA::BaseModel::Implementation::getPacketQueueInfo() const
+EMANE::Models::TDMA::QueueInfos EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::getPacketQueueInfo() const
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -1074,7 +1074,7 @@ EMANE::Models::TDMA::QueueInfos EMANE::Models::TDMA::BaseModel::Implementation::
   return pQueueManager_->getPacketQueueInfo();
 }
 //TODO: This line would change
-void EMANE::Models::TDMA::BaseModel::Implementation::sendDownstreamPacket(double dSlotRemainingRatio)
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::sendDownstreamPacket(double dSlotRemainingRatio)
 {
   // calculate the number of bytes allowed in the slot
   size_t bytesAvailable =
@@ -1220,7 +1220,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::sendDownstreamPacket(double
     }
 }
 
-void EMANE::Models::TDMA::BaseModel::Implementation::processTxOpportunity(std::uint64_t u64ScheduleIndex)
+void EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::processTxOpportunity(std::uint64_t u64ScheduleIndex)
 {
   // check for scheduled timer functor after new schedule, if so disregard
   if(u64ScheduleIndex != u64ScheduleIndex_)
@@ -1340,7 +1340,7 @@ void EMANE::Models::TDMA::BaseModel::Implementation::processTxOpportunity(std::u
   return;
 }
 //TODO: This line would change
-EMANE::NEMId EMANE::Models::TDMA::BaseModel::Implementation::getDstByMaxWeight()
+EMANE::NEMId EMANE::Models::HBShimlayer::BaseModelHB::ImplementationHB::getDstByMaxWeight()
 {
 
   auto qls = pQueueManager_->getDestQueueLength(0);
