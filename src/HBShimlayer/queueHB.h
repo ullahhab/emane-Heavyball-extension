@@ -12,7 +12,7 @@ namespace EMANE
 {
   namespace Models
   {
-    namespace HeavyBallTDMA
+    namespace HeavyBallShimlayer
     {
       /**
        * @class Queue
