@@ -1,7 +1,7 @@
 #ifndef EMANEMODELSTDMABASICQUEUEMANAGER_HEADER_
 #define EMANEMODELSTDMABASICQUEUEMANAGER_HEADER_
 //TODO: THis line would most likely change
-#include "emane/models/tdma/queuemanager.h"
+#include "queuemanager.h"
 
 namespace EMANE
 {
@@ -14,10 +14,10 @@ namespace EMANE
        *
        * @brief Reference QueueManager implementation
        */
-      class BasicQueueManager : public QueueManager
+      class BasicQueueManagerHB : public QueueManager
       {
       public:
-        BasicQueueManager(NEMId id,
+        BasicQueueManagerHB(NEMId id,
                           PlatformServiceProvider * pPlatformServiceProvider);
 
         ~BasicQueueManager();
@@ -45,7 +45,7 @@ namespace EMANE
         QueueInfos getPacketQueueInfo() const override;
 
       private:
-        class Implementation;
+        class ImplementationHB;
         std::unique_ptr<Implementation> pImpl_;
       };
     }
