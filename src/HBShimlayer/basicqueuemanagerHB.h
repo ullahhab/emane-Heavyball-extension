@@ -14,7 +14,7 @@ namespace EMANE
        *
        * @brief Reference QueueManager implementation
        */
-      class BasicQueueManagerHB : public QueueManager
+      class BasicQueueManagerHB : public QueueManagerHB
       {
       public:
         BasicQueueManagerHB(NEMId id,
