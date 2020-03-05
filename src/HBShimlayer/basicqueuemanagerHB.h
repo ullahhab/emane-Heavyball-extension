@@ -45,7 +45,7 @@ namespace EMANE
         QueueInfos getPacketQueueInfo() const override;
       //TODO: Check this line
       private:
-        class ImplementationHB;
+        class Implementation;
         std::unique_ptr<Implementation> pImpl_;
       };
     }
