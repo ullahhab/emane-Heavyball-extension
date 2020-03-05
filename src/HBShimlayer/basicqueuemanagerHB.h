@@ -20,7 +20,7 @@ namespace EMANE
         BasicQueueManagerHB(NEMId id,
                           PlatformServiceProvider * pPlatformServiceProvider);
 
-        ~BasicQueueManager();
+        ~BasicQueueManagerHB();
 
         void initialize(Registrar & registrar) override;
 
