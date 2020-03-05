@@ -4,7 +4,7 @@
 #include "emane/configureexception.h"
 #include "queue.h"
 //TODO: This would change
-#include "queuestatuspublisher.h"
+#include "emane/src/models/mac/tdma/queuestatuspublisher.h"
 
 namespace
 {
