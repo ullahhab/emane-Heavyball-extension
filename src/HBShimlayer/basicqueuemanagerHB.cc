@@ -1,8 +1,9 @@
 
 //TODO: Most of these lines would change. 
-#include "emane/models/tdma/basicqueuemanager.h"
+#include "basicqueuemanager.h"
 #include "emane/configureexception.h"
 #include "queue.h"
+//TODO: This would change
 #include "queuestatuspublisher.h"
 
 namespace
@@ -10,7 +11,7 @@ namespace
   const int MAX_QUEUES = 5;
 }
 //TODO: This line would change
-class EMANE::Models::TDMA::BasicQueueManager::Implementation
+class EMANE::Models::HBShimlayer::BasicQueueManagerHB::Implementation
 {
 public:
   bool bAggregationEnable_{};
@@ -22,14 +23,14 @@ public:
 };
 
 //TODO: THis line would change
-EMANE::Models::TDMA::BasicQueueManager::BasicQueueManager(NEMId id,
+EMANE::Models::HBShimlayer::BasicQueueManagerHB::BasicQueueManagerHB(NEMId id,
                                                           PlatformServiceProvider * pPlatformServiceProvider):
   QueueManager{id,pPlatformServiceProvider},
   pImpl_{new Implementation{}}{}
 
-EMANE::Models::TDMA::BasicQueueManager::~BasicQueueManager(){}
+EMANE::Models::HBShimlayer::BasicQueueManagerHB::~BasicQueueManagerHB(){}
 
-void EMANE::Models::TDMA::BasicQueueManager::initialize(Registrar & registrar)
+void EMANE::Models::HBShimlayer::BasicQueueManagerHB::initialize(Registrar & registrar)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -85,7 +86,7 @@ void EMANE::Models::TDMA::BasicQueueManager::initialize(Registrar & registrar)
 
 }
 //TODO: This line would change
-void EMANE::Models::TDMA::BasicQueueManager::configure(const ConfigurationUpdate & update)
+void EMANE::Models::HBShimlayer::BasicQueueManagerHB::configure(const ConfigurationUpdate & update)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -195,7 +196,7 @@ void EMANE::Models::TDMA::BasicQueueManager::configure(const ConfigurationUpdate
 
 }
 //TODO: This line would change
-void EMANE::Models::TDMA::BasicQueueManager::start()
+void EMANE::Models::HBShimlayer::BasicQueueManagerHB::start()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -204,7 +205,7 @@ void EMANE::Models::TDMA::BasicQueueManager::start()
                           __func__);
 }
 //TODO: This line would change
-void EMANE::Models::TDMA::BasicQueueManager::postStart()
+void EMANE::Models::HBShimlayer::BasicQueueManagerHB::postStart()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -213,7 +214,7 @@ void EMANE::Models::TDMA::BasicQueueManager::postStart()
                           __func__);
 }
 //TODO: This line would change
-void EMANE::Models::TDMA::BasicQueueManager::stop()
+void EMANE::Models::HBShimlayer::BasicQueueManagerHB::stop()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -222,7 +223,7 @@ void EMANE::Models::TDMA::BasicQueueManager::stop()
                           __func__);
 }
 //TODO: THis line would change
-void EMANE::Models::TDMA::BasicQueueManager::destroy() throw()
+void EMANE::Models::HBShimlayer::BasicQueueManagerHB::destroy() throw()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -231,7 +232,7 @@ void EMANE::Models::TDMA::BasicQueueManager::destroy() throw()
                           __func__);
 }
 //TODO: THis line would change
-size_t EMANE::Models::TDMA::BasicQueueManager::enqueue(std::uint8_t u8QueueIndex,
+size_t EMANE::Models::HBShimlayer::BasicQueueManagerHB::enqueue(std::uint8_t u8QueueIndex,
                                                      DownstreamPacket && pkt)
 {
   size_t packetsDropped{};
@@ -264,7 +265,7 @@ size_t EMANE::Models::TDMA::BasicQueueManager::enqueue(std::uint8_t u8QueueIndex
 }
 //TODO: 
 std::tuple<EMANE::Models::TDMA::MessageComponents,size_t>
-EMANE::Models::TDMA::BasicQueueManager::dequeue(std::uint8_t u8QueueIndex,
+EMANE::Models::HBShimlayer::BasicQueueManagerHB::dequeue(std::uint8_t u8QueueIndex,
                                                 size_t requestedBytes,
                                                 NEMId destination)
 {
@@ -359,7 +360,7 @@ EMANE::Models::TDMA::BasicQueueManager::dequeue(std::uint8_t u8QueueIndex,
 }
 //TODO: This line would change
 EMANE::Models::TDMA::QueueInfos
-EMANE::Models::TDMA::BasicQueueManager::getPacketQueueInfo() const
+EMANE::Models::HBShimlayer::BasicQueueManagerHB::getPacketQueueInfo() const
 {
   QueueInfos queueInfos{};
 
@@ -375,7 +376,7 @@ EMANE::Models::TDMA::BasicQueueManager::getPacketQueueInfo() const
   return queueInfos;
 }
 //TODO: This would change most likely
-std::map<std::uint64_t,size_t> EMANE::Models::TDMA::BasicQueueManager::getDestQueueLength(int priority)
+std::map<std::uint64_t,size_t> EMANE::Models::HBShimlayer::BasicQueueManagerHB::getDestQueueLength(int priority)
 {
   return pImpl_->queues_[priority].getDestQueueLength();
 }
