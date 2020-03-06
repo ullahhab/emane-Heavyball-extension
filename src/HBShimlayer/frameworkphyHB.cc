@@ -1,5 +1,6 @@
 
 //TODO: This would change to current working directory
+//Framework is somewhere else
 #include "frameworkphy.h"
 
 #include "emane/commonphyheader.h"
@@ -7,6 +8,7 @@
 #include "emane/spectrumserviceexception.h"
 
 #include "emane/utils/conversionutils.h"
+//TODO: This would change
 #include "emane/utils/pathlossesholder.h"
 
 #include "emane/events/antennaprofileevent.h"
