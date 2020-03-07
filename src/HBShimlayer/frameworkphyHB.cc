@@ -1,7 +1,7 @@
 
 //TODO: This would change to current working directory
 //Framework is somewhere else
-#include "frameworkphy.h"
+#include "frameworkphyshim.h"
 
 #include "emane/commonphyheader.h"
 #include "emane/configureexception.h"
@@ -65,7 +65,7 @@ namespace
   const std::string FADINGMANAGER_PREFIX{"fading."};
 }
 
-EMANE::FrameworkPHY::FrameworkPHY(NEMId id,
+EMANE::shim::FrameworkPHY::FrameworkPHY(NEMId id,
                                   PlatformServiceProvider * pPlatformService,
                                   SpectrumMonitor * pSpectrumMonitor):
   PHYLayerImplementor{id, pPlatformService},
