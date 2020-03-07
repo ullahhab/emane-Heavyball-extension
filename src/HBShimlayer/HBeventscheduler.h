@@ -12,7 +12,7 @@ namespace EMANE
 {
   namespace Models
   {
-    namespace HBshimlayer
+    namespace HBShimlayer
     {
       /**
        * @class EventScheduler
