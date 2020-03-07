@@ -1,7 +1,7 @@
-#include "eventscheduler.h"
-#include "emane/events/tdmascheduleevent.h"
+#include "HBeventscheduler.h"
+#include "emane/events/HBtdmascheduleevent.h"
 
-EMANE::Models::TDMA::EventScheduler::EventScheduler(NEMId id,
+EMANE::Models::HBShimlayer::EventScheduler::EventScheduler(NEMId id,
                                                     PlatformServiceProvider * pPlatformServiceProvider,
                                                     SchedulerUser * pSchedulerUser):
   Scheduler{id,pPlatformServiceProvider,pSchedulerUser},
@@ -14,10 +14,10 @@ EMANE::Models::TDMA::EventScheduler::EventScheduler(NEMId id,
   pNumScheduleUpdateAccept_{}
 {}
 
-EMANE::Models::TDMA::EventScheduler::~EventScheduler()
+EMANE::Models::HBShimlayer::EventScheduler::~EventScheduler()
 {}
 
-void EMANE::Models::TDMA::EventScheduler::initialize(Registrar & registrar)
+void EMANE::Models::HBShimlayer::EventScheduler::initialize(Registrar & registrar)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -68,7 +68,7 @@ void EMANE::Models::TDMA::EventScheduler::initialize(Registrar & registrar)
   eventRegistrar.registerEvent(Events::TDMAScheduleEvent::IDENTIFIER);
 }
 
-void EMANE::Models::TDMA::EventScheduler::configure(const ConfigurationUpdate &)
+void EMANE::Models::HBShimlayer::EventScheduler::configure(const ConfigurationUpdate &)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -77,7 +77,7 @@ void EMANE::Models::TDMA::EventScheduler::configure(const ConfigurationUpdate &)
                           __func__);
 }
 
-void EMANE::Models::TDMA::EventScheduler::start()
+void EMANE::Models::HBShimlayer::EventScheduler::start()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -86,7 +86,7 @@ void EMANE::Models::TDMA::EventScheduler::start()
                           __func__);
 }
 
-void EMANE::Models::TDMA::EventScheduler::postStart()
+void EMANE::Models::HBShimlayer::EventScheduler::postStart()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -95,7 +95,7 @@ void EMANE::Models::TDMA::EventScheduler::postStart()
                           __func__);
 }
 
-void EMANE::Models::TDMA::EventScheduler::stop()
+void EMANE::Models::HBShimlayer::EventScheduler::stop()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -104,7 +104,7 @@ void EMANE::Models::TDMA::EventScheduler::stop()
                           __func__);
 }
 
-void EMANE::Models::TDMA::EventScheduler::destroy() throw()
+void EMANE::Models::HBShimlayer::EventScheduler::destroy() throw()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -113,7 +113,7 @@ void EMANE::Models::TDMA::EventScheduler::destroy() throw()
                           __func__);
 }
 
-void EMANE::Models::TDMA::EventScheduler::processEvent(const EventId & eventId,
+void EMANE::Models::HBShimlayer::EventScheduler::processEvent(const EventId & eventId,
                                                        const Serialization & serialization)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -293,7 +293,7 @@ void EMANE::Models::TDMA::EventScheduler::processEvent(const EventId & eventId,
     }
 }
 
-void EMANE::Models::TDMA::EventScheduler::flushSchedule()
+void EMANE::Models::HBShimlayer::EventScheduler::flushSchedule()
 {
   // clear out existing schedule
   slotInfos_.clear();
@@ -315,7 +315,7 @@ void EMANE::Models::TDMA::EventScheduler::flushSchedule()
 }
 
 EMANE::Models::TDMA::SlotInfo
-EMANE::Models::TDMA::EventScheduler::getSlotInfo(std::uint64_t u64AbsoluteSlotIndex) const
+EMANE::Models::HBShimlayer::EventScheduler::getSlotInfo(std::uint64_t u64AbsoluteSlotIndex) const
 {
   // no schedule available
   if(slotInfos_.empty())
@@ -345,7 +345,7 @@ EMANE::Models::TDMA::EventScheduler::getSlotInfo(std::uint64_t u64AbsoluteSlotIn
 }
 
 EMANE::Models::TDMA::SlotInfo
-EMANE::Models::TDMA::EventScheduler::getSlotInfo(const TimePoint & timePoint) const
+EMANE::Models::HBShimlayer::EventScheduler::getSlotInfo(const TimePoint & timePoint) const
 {
   // no schedule available
   if(slotInfos_.empty())
@@ -365,7 +365,7 @@ EMANE::Models::TDMA::EventScheduler::getSlotInfo(const TimePoint & timePoint) co
 }
 
 std::pair<EMANE::Models::TDMA::RxSlotInfo,bool>
-EMANE::Models::TDMA::EventScheduler::getRxSlotInfo(const TimePoint & timePoint) const
+EMANE::Models::HBShimlayer::EventScheduler::getRxSlotInfo(const TimePoint & timePoint) const
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -410,7 +410,7 @@ EMANE::Models::TDMA::EventScheduler::getRxSlotInfo(const TimePoint & timePoint) 
 }
 
 std::pair<EMANE::Models::TDMA::TxSlotInfos,EMANE::TimePoint>
-EMANE::Models::TDMA::EventScheduler::getTxSlotInfo(const TimePoint & timePoint,
+EMANE::Models::HBShimlayer::EventScheduler::getTxSlotInfo(const TimePoint & timePoint,
                                                    int multiframes) const
 {
   // no scedule available
@@ -480,7 +480,7 @@ EMANE::Models::TDMA::EventScheduler::getTxSlotInfo(const TimePoint & timePoint,
   return {txSlotInfos,slotter_.getMultiFrameTime(u64AbsoluteMultiFrameIndex + multiframes)};
 }
 
-void EMANE::Models::TDMA::EventScheduler::processSchedulerPacket(UpstreamPacket &,
+void EMANE::Models::HBShimlayer::EventScheduler::processSchedulerPacket(UpstreamPacket &,
                                                                  const PacketMetaInfo &)
 {
  LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
@@ -490,7 +490,7 @@ void EMANE::Models::TDMA::EventScheduler::processSchedulerPacket(UpstreamPacket 
                           __func__);
 }
 
-void EMANE::Models::TDMA::EventScheduler::processPacketMetaInfo(const PacketMetaInfo &)
+void EMANE::Models::HBShimlayer::EventScheduler::processPacketMetaInfo(const PacketMetaInfo &)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
