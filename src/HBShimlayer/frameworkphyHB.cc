@@ -90,9 +90,9 @@ EMANE::FrameworkPHY::FrameworkPHY(NEMId id,
   dSystemNoiseFiguredB_{},
   fadingManager_{id, pPlatformService,FADINGMANAGER_PREFIX}{}
 
-EMANE::FrameworkPHY::~FrameworkPHY(){}
+EMANE::shim::FrameworkPHY::~FrameworkPHY(){}
 
-void EMANE::FrameworkPHY::initialize(Registrar & registrar)
+void EMANE::shim::FrameworkPHY::initialize(Registrar & registrar)
 {
   auto & configRegistrar = registrar.configurationRegistrar();
 
@@ -253,7 +253,7 @@ void EMANE::FrameworkPHY::initialize(Registrar & registrar)
   fadingManager_.initialize(registrar);
 }
 
-void EMANE::FrameworkPHY::configure(const ConfigurationUpdate & update)
+void EMANE::shim::FrameworkPHY::configure(const ConfigurationUpdate & update)
 {
   FrequencySet foi{};
   ConfigurationUpdate fadingManagerConfiguration{};
@@ -536,7 +536,7 @@ void EMANE::FrameworkPHY::configure(const ConfigurationUpdate & update)
                                 bNoiseMaxClamp_);
 }
 
-void EMANE::FrameworkPHY::start()
+void EMANE::shim::FrameworkPHY::start()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -545,7 +545,7 @@ void EMANE::FrameworkPHY::start()
                           __func__);
 }
 
-void EMANE::FrameworkPHY::stop()
+void EMANE::shim::FrameworkPHY::stop()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -554,7 +554,7 @@ void EMANE::FrameworkPHY::stop()
                           __func__);
 }
 
-void EMANE::FrameworkPHY::destroy() throw()
+void EMANE::shim::FrameworkPHY::destroy() throw()
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -564,7 +564,7 @@ void EMANE::FrameworkPHY::destroy() throw()
 
 }
 
-void EMANE::FrameworkPHY::processConfiguration(const ConfigurationUpdate & update)
+void EMANE::shim::FrameworkPHY::processConfiguration(const ConfigurationUpdate & update)
 {
   ConfigurationUpdate fadingManagerConfiguration{};
 
@@ -607,7 +607,7 @@ void EMANE::FrameworkPHY::processConfiguration(const ConfigurationUpdate & updat
   fadingManager_.modify(fadingManagerConfiguration);
 }
 
-void EMANE::FrameworkPHY::processDownstreamControl(const ControlMessages & msgs)
+void EMANE::shim::FrameworkPHY::processDownstreamControl(const ControlMessages & msgs)
 {
   LOGGER_STANDARD_LOGGING(pPlatformService_->logService(),
                           DEBUG_LEVEL,
@@ -679,7 +679,7 @@ void EMANE::FrameworkPHY::processDownstreamControl(const ControlMessages & msgs)
     }
 }
 
-void EMANE::FrameworkPHY::processDownstreamPacket(DownstreamPacket & pkt,
+void EMANE::shim::FrameworkPHY::processDownstreamPacket(DownstreamPacket & pkt,
                                                   const ControlMessages & msgs)
 {
   auto now = Clock::now();
@@ -931,7 +931,7 @@ void EMANE::FrameworkPHY::processUpstreamPacket(const CommonPHYHeader & commonPH
   processUpstreamPacket_i(Clock::now(),commonPHYHeader,pkt,{});
 }
 
-void EMANE::FrameworkPHY::processUpstreamPacket_i(const TimePoint & now,
+void EMANE::shim::FrameworkPHY::processUpstreamPacket_i(const TimePoint & now,
                                                   const CommonPHYHeader & commonPHYHeader,
                                                   UpstreamPacket & pkt,
                                                   const ControlMessages &)
