@@ -1,5 +1,5 @@
 #include "HBtdmascheduleevent.h"
-#include "tdmascheduleevent.pb.h"
+#include "emane/src/libemane/tdmascheduleevent.pb.h"
 
 #include <cstdint>
 #include <tuple>
