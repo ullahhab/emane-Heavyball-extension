@@ -1,10 +1,10 @@
-#include "emane/events/tdmascheduleevent.h"
+#include "HBtdmascheduleevent.h"
 #include "tdmascheduleevent.pb.h"
 
 #include <cstdint>
 #include <tuple>
 
-class EMANE::Events::TDMAScheduleEvent::Implementation
+class EMANE::Events::shim::TDMAScheduleEvent::Implementation
 {
 public:
   Implementation(const Serialization & serialization):
@@ -296,11 +296,11 @@ private:
 };
 
 
-EMANE::Events::TDMAScheduleEvent::TDMAScheduleEvent(const Serialization & serialization):
+EMANE::Events::shim::TDMAScheduleEvent::TDMAScheduleEvent(const Serialization & serialization):
   Event{IDENTIFIER},
   pImpl_{new Implementation{serialization}}{}
 
-EMANE::Events::TDMAScheduleEvent::~TDMAScheduleEvent(){}
+EMANE::Events::shim::TDMAScheduleEvent::~TDMAScheduleEvent(){}
 
 const EMANE::Events::SlotInfos & EMANE::Events::TDMAScheduleEvent::getSlotInfos() const
 {
@@ -315,7 +315,7 @@ EMANE::Events::TDMAScheduleEvent::getFrequencies() const
 }
 
 std::pair<const EMANE::Events::SlotStructure &,bool>
-EMANE::Events::TDMAScheduleEvent::getSlotStructure() const
+EMANE::Events::shim::TDMAScheduleEvent::getSlotStructure() const
 {
   return  pImpl_->getSlotStructure();
 }
