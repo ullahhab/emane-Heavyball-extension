@@ -5,13 +5,13 @@
 #include "emane/phytypes.h"
 #include "emane/utils/commonlayerstatistics.h"
 
-#include "locationmanager.h"
-#include "spectrummonitor.h"
-#include "gainmanager.h"
-#include "propagationmodelalgorithm.h"
-#include "eventtablepublisher.h"
-#include "receivepowertablepublisher.h"
-#include "fadingmanager.h"
+#include "emane/src/libemane/locationmanager.h"
+#include "emane/src/libemane/spectrummonitor.h"
+#include "emane/src/libemane/gainmanager.h"
+#include "emane/src/libemane/propagationmodelalgorithm.h"
+#include "emane/src/libemane/eventtablepublisher.h"
+#include "emane/src/libemane/receivepowertablepublisher.h"
+#include "emane/src/libemane/fadingmanager.h"
 
 #include <set>
 #include <cstdint>
