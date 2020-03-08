@@ -42,8 +42,7 @@ nodist_libtdmabase_la_SOURCES =      \
  tdmabasemodelmessage.pb.h
 
 EXTRA_DIST=                          \
- tdmabasemodelmessage.proto          \
- tdmabasemodelpcr.xml
+ tdmabasemodelmessage.proto          
 
 BUILT_SOURCES =                      \
  $(nodist_libtdmabase_la_SOURCES)
