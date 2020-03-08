@@ -1,6 +1,6 @@
  SUBDIRS=                             \
  .                                    \
- eventscheduler
+ pythonFile
 
 lib_LTLIBRARIES = libtdmabase.la
 
